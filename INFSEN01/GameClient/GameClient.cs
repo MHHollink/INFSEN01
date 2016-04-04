@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -59,8 +60,19 @@ namespace GameClient
             spriteBatch.Begin();
             foreach (var drawable in GameLogic.draw(gamestate))
             {
-                spriteBatch.Draw(Content.Load<Texture2D>(drawable.Image),
-                  drawable.Position, Color.White);
+                Texture2D sprite = Content.Load<Texture2D>(drawable.Image);
+
+                spriteBatch.Draw(
+                    sprite, 
+                    new Vector2((float)drawable.Position.X,
+                    (float)drawable.Position.Y),
+                    null,
+                    Color.White, 
+                    (float)drawable.Rotation + (float)(Math.PI * 90 / 180), 
+                    new Vector2(sprite.Width / 2, sprite.Height / 2),
+                    1.0f, SpriteEffects.None,
+                    0
+                 );
             }
             spriteBatch.End();
 
