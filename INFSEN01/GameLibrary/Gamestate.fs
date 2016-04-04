@@ -20,12 +20,12 @@ let init() =
     Cursor  = 
       {
         Position = Vector2(0.0f, 0.0f)
-        Rotation = 0.0f
+        Rotation = 0.0
       }
     Player  = 
       {
         Position = Vector2(0.0f, 0.0f)
         Velocity = Vector2.Zero
-        Rotation = 0.0f
+        Rotation = 0.0
       }
   }

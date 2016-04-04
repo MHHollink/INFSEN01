@@ -10,7 +10,7 @@ type Player =
   {
     Position : Vector2
     Velocity : Vector2
-    Rotation : float32
+    Rotation : float
   }
 
 let updatePlayer (ks:KeyboardState) (ms:MouseState) (dt:float32) (player:Player) =
@@ -37,24 +37,23 @@ let updatePlayer (ks:KeyboardState) (ms:MouseState) (dt:float32) (player:Player)
       { player with Velocity = player.Velocity + Vector2.UnitX * speed * dt }
     else 
       player
-
   {
-    player with Position = player.Position + player.Velocity * dt;
-                Velocity = player.Velocity * 0.9f;
-                Rotation = 0.0f//Math.Atan2(ms.Y - player.Position.Y, ms.X - player.Position.X)
+    player with Position = player.Position + player.Velocity * dt
+                Velocity = player.Velocity * 0.9f
+                Rotation = Math.Atan2((float) ms.Y - (float) player.Position.Y, (float) ms.X - (float) player.Position.X)
   }         
 
 // Cursor information
 type Cursor = 
   {
     Position : Vector2
-    Rotation : float32
+    Rotation : float
   }
 
 let newCursor (ms:MouseState) (cursor:Cursor): 
   Cursor =
     {
-      cursor with Position = ms.Position.ToVector2();
+      cursor with Position = ms.Position.ToVector2()
     }
   
 
@@ -64,5 +63,5 @@ let newCursor (ms:MouseState) (cursor:Cursor):
 type Bullet =
   {
     Position : Vector2
-    Rotation : float32
+    Rotation : float
   }
