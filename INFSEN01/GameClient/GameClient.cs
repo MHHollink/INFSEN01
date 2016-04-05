@@ -55,7 +55,7 @@ namespace GameClient
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkSeaGreen);
             
             spriteBatch.Begin();
             foreach (var drawable in GameLogic.draw(gamestate))
