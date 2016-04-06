@@ -39,16 +39,17 @@ let update (ks:KeyboardState) (ms:MouseState) (dt:float32) (gamestate:Gamestate)
     match zombies with
     | [] -> true
     | p :: ps ->
-      if Vector2.Distance(p.Position, b.Position) < 10.0f then
+      if Vector2.Distance(p.Position, b.Position) < 40.0f then
         false
       else
         hasKilled ps b
-        
+  let zombieHitList = isZombieHit gamestate.Bullets
+  let bulletHitList = hasKilled gamestate.Zombies
   {
     gamestate with Gamestate.Player  = updatePlayer ks ms dt gamestate.Player
                    Gamestate.Cursor  = newCursor ms gamestate.Cursor
-                   Gamestate.Zombies = updateZombies (isZombieHit gamestate.Bullets) dt gamestate.Zombies gamestate.Player.Position 
-                   Gamestate.Bullets = updateBullets fireGun isShooting (hasKilled gamestate.Zombies) dt gamestate.Bullets
+                   Gamestate.Zombies = updateZombies zombieHitList dt gamestate.Zombies gamestate.Player.Position 
+                   Gamestate.Bullets = updateBullets fireGun isShooting bulletHitList dt gamestate.Bullets
                    Gamestate.Gun     = newGun
   }
 
