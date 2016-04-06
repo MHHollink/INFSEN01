@@ -85,20 +85,25 @@ type Bullet =
   }
 
 let updateBullet (dt:float32) (bullet:Bullet) : Bullet =
+  let speed  = 850.0
+  let deltaY = (float32) ( speed * ((Math.Sin ( bullet.Rotation )))) 
+  let deltaX = (float32) ( speed * ((Math.Cos ( bullet.Rotation )))) 
   {
-    bullet with Position = bullet.Position - Vector2.UnitY * dt * 450.0f
+    bullet with Position = Vector2(bullet.Position.X + (deltaX * dt), bullet.Position.Y + (deltaY * dt))
   }
 
-let updateBullets (newBullet:Unit->Bullet) (createNew:Unit->bool) (dt:float32) (bullets:List<Bullet>) =
+let updateBullets (newBullet:Unit->Bullet) (createNew:Unit->bool) (hasKilled:Bullet->bool) (dt:float32) (bullets:List<Bullet>) =
   let bullets = 
     if createNew() then
       newBullet() :: bullets
     else
       bullets
-  let bullets = Utils.map (updateBullet dt) bullets
+  let bullets = map (updateBullet dt) bullets
   let insideScreen (b:Bullet) : bool =
-    b.Position.Y > -100.0f || b.Position.Y < 800.0f || b.Position.X > -100.0f || b.Position.X < 800.0f
-  Utils.filter insideScreen bullets
+    b.Position.Y > -100.0f || b.Position.Y < 800.0f || b.Position.X > -100.0f || b.Position.X < 800.0f 
+  let bullets = filter insideScreen bullets
+  filter hasKilled bullets
+
 
 let drawBullet (bullet:Bullet) : Drawable =
   {

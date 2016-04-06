@@ -27,29 +27,40 @@ let update (ks:KeyboardState) (ms:MouseState) (dt:float32) (gamestate:Gamestate)
       Bullet.Position = gamestate.Player.Position
       Bullet.Rotation = gamestate.Player.Rotation
     }
-  let rec isZombieHit (projectiles:List<Bullet>) (z:Zombie) =
-    match projectiles with
-    | [] -> false
+  let rec isZombieHit (bullets:List<Bullet>) (z:Zombie) =
+    match bullets with
+    | [] -> true
     | p :: ps ->
-      if Vector2.Distance(p.Position, z.Position) < 120.0f then
-        true
+      if Vector2.Distance(p.Position, z.Position) < 50.0f then
+        false
       else
         isZombieHit ps z
+  let rec hasKilled (zombies:List<Zombie>) (b:Bullet) =
+    match zombies with
+    | [] -> true
+    | p :: ps ->
+      if Vector2.Distance(p.Position, b.Position) < 10.0f then
+        false
+      else
+        hasKilled ps b
         
   {
     gamestate with Gamestate.Player  = updatePlayer ks ms dt gamestate.Player
                    Gamestate.Cursor  = newCursor ms gamestate.Cursor
-                   Gamestate.Bullets = updateBullets fireGun isShooting dt gamestate.Bullets
+                   Gamestate.Zombies = updateZombies (isZombieHit gamestate.Bullets) dt gamestate.Zombies gamestate.Player.Position 
+                   Gamestate.Bullets = updateBullets fireGun isShooting (hasKilled gamestate.Zombies) dt gamestate.Bullets
                    Gamestate.Gun     = newGun
   }
 
 let draw (gamestate:Gamestate) : seq<Drawable> = 
   let bullets =
     map drawBullet gamestate.Bullets
+  let zombies = 
+    map drawZombie gamestate.Zombies
   [
       drawPlayer gamestate.Player
   ] @ 
   [
       drawCursor gamestate.Cursor
-  ] @ bullets
+  ] @ bullets @ zombies
   |> Seq.ofList
