@@ -9,17 +9,20 @@ open Drawable
 open Zombie
 open Utils
 
-let update (ks:KeyboardState) (ms:MouseState) (dt:float32) (gamestate:Gamestate) = 
+let update (keyState:KeyboardState) (mouseState:MouseState) (delta:float32) (gamestate:Gamestate) = 
   let isShooting, newGun =
     match gamestate.Gun with 
     | Ready ->
-      if ms.LeftButton.Equals(ButtonState.Pressed) then
+      if mouseState.LeftButton.Equals(ButtonState.Pressed) then
         (fun () -> true), Cooldown 0.2f
       else 
         (fun () -> false), Ready
-    | Cooldown t -> 
-      if t > 0.0f then 
-        (fun () -> false), Cooldown(t-dt)
+    | Cooldown time -> 
+      if time > 0.0f then 
+        if mouseState.LeftButton.Equals(ButtonState.Pressed) then
+            (fun () -> false), Cooldown(time)
+        else
+            (fun () -> false), Cooldown(time-delta)
       else 
         (fun () -> false), Ready
   let fireGun() =
@@ -46,10 +49,10 @@ let update (ks:KeyboardState) (ms:MouseState) (dt:float32) (gamestate:Gamestate)
   let zombieHitList = isZombieHit gamestate.Bullets
   let bulletHitList = hasKilled gamestate.Zombies
   {
-    gamestate with Gamestate.Player  = updatePlayer ks ms dt gamestate.Player
-                   Gamestate.Cursor  = newCursor ms gamestate.Cursor
-                   Gamestate.Zombies = updateZombies zombieHitList dt gamestate.Zombies gamestate.Player.Position 
-                   Gamestate.Bullets = updateBullets fireGun isShooting bulletHitList dt gamestate.Bullets
+    gamestate with Gamestate.Player  = updatePlayer keyState mouseState delta gamestate.Player
+                   Gamestate.Cursor  = newCursor mouseState gamestate.Cursor
+                   Gamestate.Zombies = updateZombies zombieHitList delta gamestate.Zombies gamestate.Player.Position 
+                   Gamestate.Bullets = updateBullets fireGun isShooting bulletHitList delta gamestate.Bullets
                    Gamestate.Gun     = newGun
   }
 

@@ -20,22 +20,22 @@ let updatePlayer (ks:KeyboardState) (ms:MouseState) (dt:float32) (player:Player)
   let speed = 1000.0f;
 
   let player = 
-    if ks.IsKeyDown(Keys.W) then 
+    if ks.IsKeyDown(Keys.W) && player.Position.Y > 25.0f then 
       { player with Velocity = player.Velocity - Vector2.UnitY * speed * dt }
     else 
       player
   let player = 
-    if ks.IsKeyDown(Keys.A) then 
+    if ks.IsKeyDown(Keys.A) && player.Position.X > 25.0f then 
       { player with Velocity = player.Velocity - Vector2.UnitX * speed * dt }
     else 
       player
   let player = 
-    if ks.IsKeyDown(Keys.S) then 
+    if ks.IsKeyDown(Keys.S) && player.Position.Y < 575.0f then 
       { player with Velocity = player.Velocity + Vector2.UnitY * speed * dt }
     else 
       player
   let player = 
-    if ks.IsKeyDown(Keys.D) then 
+    if ks.IsKeyDown(Keys.D) && player.Position.X < 999.0f then 
       { player with Velocity = player.Velocity + Vector2.UnitX * speed * dt }
     else 
       player

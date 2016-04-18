@@ -33,24 +33,22 @@ namespace GameClient
 
         protected override void UnloadContent()
         {
+            // Dispose of all the graphics
             spriteBatch.Dispose();
             graphics.Dispose();
         }
     
         protected override void Update(GameTime gameTime)
         {
-            if (
-                GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || 
-                Keyboard.GetState().IsKeyDown(Keys.Escape)
-            )
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
             gamestate = GameLogic.update(
-                    Keyboard.GetState(), Mouse.GetState(),
+                    Keyboard.GetState(), 
+                    Mouse.GetState(),
                     (float) gameTime.ElapsedGameTime.TotalSeconds,
                     gamestate
-                );
+            );
 
             base.Update(gameTime);
         }
@@ -66,15 +64,18 @@ namespace GameClient
 
                 spriteBatch.Draw(
                     sprite, 
-                    new Vector2((float)drawable.Position.X,
-                    (float)drawable.Position.Y),
+                    new Vector2(
+                        drawable.Position.X,
+                        drawable.Position.Y
+                    ),
                     null,
                     Color.White, 
-                    (float)drawable.Rotation + (float)(Math.PI * 90 / 180), 
-                    new Vector2(sprite.Width / 2, sprite.Height / 2),
-                    1.0f, SpriteEffects.None,
+                    (float) drawable.Rotation + (float)(Math.PI / 2.0f), 
+                    new Vector2(sprite.Width / 2.0f, sprite.Height / 2.0f),
+                    1.0f, 
+                    SpriteEffects.None,
                     0
-                 );
+                );
             }
             spriteBatch.End();
 
