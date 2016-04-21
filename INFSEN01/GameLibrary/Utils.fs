@@ -15,3 +15,10 @@ let rec map (f:'a->'b) (l:List<'a>) : List<'b> =
   | x :: y ->  
     f x :: map f y
       
+type Difficulty = 
+  | Retard
+  | Easy
+  | Medium
+  | Hard
+  | Master
+  | Asian

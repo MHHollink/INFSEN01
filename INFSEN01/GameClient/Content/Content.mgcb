@@ -121,3 +121,9 @@
 /processorParam:TextureFormat=Color
 /build:zombie_5.png
 
+#begin Courier New.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Courier New.spritefont
+

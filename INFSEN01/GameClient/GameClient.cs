@@ -11,6 +11,7 @@ namespace GameClient
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private SpriteFont spriteFont;
 
         public GameClient()
         {
@@ -24,6 +25,8 @@ namespace GameClient
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            spriteFont = Content.Load<SpriteFont>("Courier New");
 
             // Create a new GameLogix. which can is used to update, handle events and draw
             gamestate = Gamestate.init();
@@ -77,6 +80,13 @@ namespace GameClient
                     0
                 );
             }
+
+            spriteBatch.DrawString(spriteFont, "Score : "+gamestate.Score,new Vector2(5,10),Color.Black);
+            spriteBatch.DrawString(spriteFont, "Kills : " + gamestate.Kills, new Vector2(5,25),Color.Black);
+            spriteBatch.DrawString(spriteFont, "Accuracy : " + gamestate.Accuracy.ToString("N3"), new Vector2(5,40),Color.Black);
+            spriteBatch.DrawString(spriteFont, "Highscore : " + gamestate.Highscore, new Vector2(graphics.PreferredBackBufferWidth - 150 ,10),Color.Black);
+
+
             spriteBatch.End();
 
             base.Draw(gameTime);

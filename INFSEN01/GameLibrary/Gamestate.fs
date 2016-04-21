@@ -4,31 +4,46 @@ open Microsoft.Xna.Framework
 
 open Player
 open Zombie
+open Utils
 
 type Gamestate =
   {
-    Player  : Player
-    Gun     : GunStatus
-    Cursor  : Cursor
-    Zombies : List<Zombie> 
-    Bullets : List<Bullet>
+    Player       : Player
+    Gun          : GunStatus
+    Cursor       : Cursor
+    Zombies      : List<Zombie> 
+    Bullets      : List<Bullet>
+    Difficulty   : Difficulty
+    Score        : int
+    Kills        : int
+    BulletsFired : int
+    Accuracy     : float32
+    Highscore    : int
   }
+
+let newPlayer = 
+      {
+        Position    = Vector2(300.0f, 300.0f)
+        Velocity    = Vector2.Zero
+        Rotation    = 0.0
+      }
 
 let init() = 
   {
-    Zombies   = []
-    Bullets   = []
-    Gun       = GunStatus.Ready
-    Cursor    = 
+    Zombies      = []
+    Bullets      = []
+    Gun          = GunStatus.Ready
+    Difficulty   = Difficulty.Retard
+    Score        = 0
+    Highscore    = 0
+    Kills        = 0
+    BulletsFired = 0
+    Accuracy     = 1.0f
+    Cursor       = 
       {
-        Position = Vector2(0.0f, 0.0f)
-        Rotation = 0.0
+        Position    = Vector2(0.0f, 0.0f)
+        Rotation    = 0.0
       }
-    Player  = 
-      {
-        Position = Vector2(300.0f, 300.0f)
-        Velocity = Vector2.Zero
-        Rotation = 0.0
-      }
+    Player       = newPlayer
   }
   
