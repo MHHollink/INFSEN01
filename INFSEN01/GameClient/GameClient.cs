@@ -86,6 +86,25 @@ namespace GameClient
             spriteBatch.DrawString(spriteFont, "Accuracy : " + gamestate.Accuracy.ToString("N3"), new Vector2(5,40),Color.Black);
             spriteBatch.DrawString(spriteFont, "Highscore : " + gamestate.Highscore, new Vector2(graphics.PreferredBackBufferWidth - 150 ,10),Color.Black);
 
+            if (!gamestate.Alive)
+            {
+                string[] strings = new[] {"You have an appointment with death!", "press [enter] to try again!"};
+                for(int i = 0; i < strings.Length; i++)
+                {
+                    Vector2 sc = spriteFont.MeasureString(strings[i]);
+                    spriteBatch.DrawString(
+                        spriteFont,
+                        strings[i],
+                        new Vector2(graphics.PreferredBackBufferWidth / 1.25f, graphics.PreferredBackBufferHeight / 2.0f + 36*i),
+                        Color.Red,
+                        0.0f,
+                        sc,
+                        1.75f,
+                        SpriteEffects.None,
+                        1.0f
+                    );
+                }
+            }
 
             spriteBatch.End();
 

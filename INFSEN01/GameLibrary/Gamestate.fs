@@ -19,15 +19,18 @@ type Gamestate =
     BulletsFired : int
     Accuracy     : float32
     Highscore    : int
+    Alive        : bool
   }
 
+// spawnplace of a new player record
 let newPlayer = 
       {
-        Position    = Vector2(300.0f, 300.0f)
+        Position    = Vector2(512.0f, 300.0f)
         Velocity    = Vector2.Zero
         Rotation    = 0.0
       }
 
+// intial gamestate
 let init() = 
   {
     Zombies      = []
@@ -45,5 +48,6 @@ let init() =
         Rotation    = 0.0
       }
     Player       = newPlayer
+    Alive        = true
   }
   
